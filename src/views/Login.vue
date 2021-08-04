@@ -69,6 +69,7 @@ export default {
           .then((res) => {
             console.log(res);
           });
+        console.log();
       }
     },
     validateBtn() {
@@ -114,7 +115,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .login {
   width: 100%;
   height: 100%;

@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .input_group {
   border: 1px solid #ccc;
   border-radius: 4px;
