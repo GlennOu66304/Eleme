@@ -42,7 +42,13 @@
     <div class="shoplist-title">推荐商家</div>
     <FilterView :filterData="filterData"
     @searchFixed="showFilterView"
+                @update="update"
     />
+    <div class="shopList">
+      <IndexShop v-for="(item,index) in restaurants" :key="index"
+      :restaurant="item.restaurant"/>
+    </div>
+
   </div>
 
 </template>
@@ -50,6 +56,7 @@
 <script>
 import {Swipe, SwipeItem} from 'mint-ui';
 import FilterView from '../components/FilterView'
+import IndexShop from '../components/IndexShop'
 
 export default {
   name: "home",
@@ -58,7 +65,11 @@ export default {
       swipeImgs: [],
       entries: [],
       filterData: null,
-      showFilter:false
+      showFilter:false,
+      page:1,
+      size:5,
+      restaurants:[],
+
     }
   },
   computed: {
@@ -76,7 +87,8 @@ export default {
     this.getData();
   },
   components: {
-    FilterView
+    FilterView,
+    IndexShop
   },
 
   methods: {
@@ -90,13 +102,22 @@ export default {
 
       this.$axios("/api/profile/filter").then(
           res => {
-            /*console.log(res.data)*/
+           /* console.log(res.data)*/
             this.filterData = res.data
+          }
+      )
+      this.$axios.post(`/api/profile/restaurants/1/5`).then(
+          res => {
+            console.log(res.data)
+            this.restaurants = res.data
           }
       )
     },
     showFilterView(isShow){
       this.showFilter = isShow
+    },
+    update(condation){
+    console.log(condation)
     },
   }
 
