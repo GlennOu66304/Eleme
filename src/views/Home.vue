@@ -2,8 +2,8 @@
   <div class="home">
     <div class="header">
       <div
-          class="address_map"
-          @click="
+        class="address_map"
+        @click="
           $router.push({
             name: 'address',
             params: { city: city },
@@ -16,23 +16,31 @@
       </div>
     </div>
     <div class="search_wrap">
-      <div class="shop_search" :class="{'fixedview':showFilter}">
+      <div
+        class="shop_search"
+        :class="{ fixedview: showFilter }"
+        @click="$router.push('/search')"
+      >
         <i class="fa fa-search"></i>
         搜索商家，商家名称
       </div>
     </div>
-    <div id="container" >
+    <div id="container">
       <mt-swipe :auto="4000" class="swiper">
-        <mt-swipe-item v-for="(img,index) in swipeImgs" :key="index">
-          <img :src="img" alt>
+        <mt-swipe-item v-for="(img, index) in swipeImgs" :key="index">
+          <img :src="img" alt />
         </mt-swipe-item>
       </mt-swipe>
 
       <mt-swipe :auto="0" class="entries">
-        <mt-swipe-item v-for="(entry,i) in entries" :key="i" class="entry_wrap">
-          <div v-for="(item,index) in entry" :key="index" class="foodentry">
+        <mt-swipe-item
+          v-for="(entry, i) in entries"
+          :key="i"
+          class="entry_wrap"
+        >
+          <div v-for="(item, index) in entry" :key="index" class="foodentry">
             <div class="img_wrap">
-              <img :src="item.image" alt>
+              <img :src="item.image" alt />
             </div>
             <span>{{ item.name }}</span>
           </div>
@@ -40,23 +48,34 @@
       </mt-swipe>
     </div>
     <div class="shoplist-title">推荐商家</div>
-    <FilterView :filterData="filterData"
-    @searchFixed="showFilterView"
-                @update="update"
+    <FilterView
+      :filterData="filterData"
+      @searchFixed="showFilterView"
+      @update="update"
     />
-    <div class="shopList">
-      <IndexShop v-for="(item,index) in restaurants" :key="index"
-      :restaurant="item.restaurant"/>
-    </div>
-
+    <mt-loadmore
+      :top-method="loadData"
+      :bottom-method="loadMore"
+      :bottom-all-loaded="allLoaded"
+      :auto-fill="false"
+      :bottomPulltext="bottomPullText"
+      ref="loadmore"
+    >
+      <div class="shopList">
+        <IndexShop
+          v-for="(item, index) in restaurants"
+          :key="index"
+          :restaurant="item.restaurant"
+        />
+      </div>
+    </mt-loadmore>
   </div>
-
 </template>
 
 <script>
-import {Swipe, SwipeItem} from 'mint-ui';
-import FilterView from '../components/FilterView'
-import IndexShop from '../components/IndexShop'
+import { Swipe, SwipeItem, Loadmore } from "mint-ui";
+import FilterView from "../components/FilterView";
+import IndexShop from "../components/IndexShop";
 
 export default {
   name: "home",
@@ -65,12 +84,13 @@ export default {
       swipeImgs: [],
       entries: [],
       filterData: null,
-      showFilter:false,
-      page:1,
-      size:5,
-      restaurants:[],
-
-    }
+      showFilter: false,
+      page: 1,
+      size: 5,
+      restaurants: [],
+      allLoaded: false,
+      bottomPullText: "上拉加载更多",
+    };
   },
   computed: {
     address() {
@@ -78,8 +98,8 @@ export default {
     },
     city() {
       return (
-          this.$store.getters.location.addressComponent.city ||
-          this.$store.getters.location.addressComponent.province
+        this.$store.getters.location.addressComponent.city ||
+        this.$store.getters.location.addressComponent.province
       );
     },
   },
@@ -88,39 +108,70 @@ export default {
   },
   components: {
     FilterView,
-    IndexShop
+    IndexShop,
   },
 
   methods: {
     getData() {
-      this.$axios("/api/profile/shopping").then(
-          res => {
-            /* console.log(res.data)*/
-            this.swipeImgs = res.data.swipeImgs;
-            this.entries = res.data.entries;
-          });
+      this.$axios("/api/profile/shopping").then((res) => {
+        /* console.log(res.data)*/
+        this.swipeImgs = res.data.swipeImgs;
+        this.entries = res.data.entries;
+      });
 
-      this.$axios("/api/profile/filter").then(
-          res => {
-           /* console.log(res.data)*/
-            this.filterData = res.data
-          }
-      )
-      this.$axios.post(`/api/profile/restaurants/1/5`).then(
-          res => {
-            console.log(res.data)
-            this.restaurants = res.data
-          }
-      )
+      this.$axios("/api/profile/filter").then((res) => {
+        /* console.log(res.data)*/
+        this.filterData = res.data;
+      });
+      this.$axios.post(`/api/profile/restaurants/1/5`).then((res) => {
+        console.log(res.data);
+        this.restaurants = res.data;
+      });
+      this.loadData();
     },
-    showFilterView(isShow){
-      this.showFilter = isShow
+    loadData() {
+      this.page = 1;
+      this.allLoaded = false;
+      this.bottomText = "上拉加载更多";
+      this.$axios
+        .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.data)
+        .then((res) => {
+          // console.log(res.data);
+          this.$refs.loadmore.onTopLoaded();
+          this.restaurants = res.data;
+        });
     },
-    update(condation){
-    console.log(condation)
-    },
-  }
+    loadMore() {
+      this.page++;
+      this.$axios
+        .post(`/api/profile/restaurants/${this.page}/${this.size}`)
+        .then((res) => {
+          // console.log(res.data);
+          this.$refs.loadmore.onBottomLoaded();
+          if (res.data.length > 0) {
+            res.data.forEach((item) => {
+              this.restaurants.push(item);
+            });
 
+            if (res.data.length < this.size) {
+              this.allLoaded = true;
+              this.bottomPullText = "没有更多了哦";
+            }
+          } else {
+            this.allLoaded = true;
+            this.bottomPullText = "没有更多了哦";
+          }
+        });
+    },
+    showFilterView(isShow) {
+      this.showFilter = isShow;
+    },
+    update(condation) {
+      // console.log(condation);
+      this.data = condation;
+      this.loadData();
+    },
+  },
 };
 </script>
 
