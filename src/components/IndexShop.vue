@@ -1,5 +1,5 @@
 <template>
-  <div class="index-container">
+  <div class="index-container" @click="$router.push('/goods')">
     <div class="index-shopInfo">
       <div class="logo_container">
         <img :src="restaurant.image_path" alt />

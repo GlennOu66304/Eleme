@@ -53,12 +53,36 @@ const routes = [
         name: 'Search',
         component: () => import('@/views/Search.vue')
     }
+    , {
+        path: '/goods',
+        name: 'Shop',
+        component: () => import('@/views/shop/Shop.vue'),
+        redirect: '/good',
+        children: [
+            {
+                path: '/good',
+                name: 'Goods',
+                component: () => import('@/views/shop/Goods.vue')
+            },
+            {
+                path: '/comment',
+                name: 'Comments',
+                component: () => import('@/views/shop/Comments.vue')
+            },
+            {
+                path: '/seller',
+                name: 'Sellers',
+                component: () => import('@/views/shop/Seller.vue')
+            },
+        ],
+    }
 
 ]
 
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
+    linkActiveClass: 'active',
     routes
 })
 

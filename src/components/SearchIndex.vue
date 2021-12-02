@@ -1,6 +1,10 @@
 <template>
   <div class="search_list">
-    <li v-for="(item, index) in data" :key="index" @click="$emit('click')">
+    <li
+      v-for="(item, index) in data"
+      :key="index"
+      @click="$router.push('/goods')"
+    >
       <img v-if="item.image_path" :src="item.image_path" alit="" />
       <i v-else class="fa fa-search" />
       <div class="shop_item">
