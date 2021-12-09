@@ -101,6 +101,7 @@ export default {
       listHeight: [],
       selectedFoods: null,
       showFoods: false,
+      currentIndex: 0,
     };
   },
 
@@ -160,17 +161,20 @@ export default {
 
     selectMenu(index) {
       // console.log(index);
-      let foodlist =
-        this.$refs.foodsScroll.getElementsByClassName("food-list-hook");
+      let foodlist = this.$refs.foodsScroll.getElementsByClassName(
+        "food-list-hook"
+      );
 
       let el = foodlist[index];
       // console.log(el);
       // 滚动到对应元素的位置
       this.foodsScroll.scrollToElement(el, 250);
+      this.currentIndex = index;
     },
     calculateHeight() {
-      let foodlist =
-        this.$refs.foodsScroll.getElementsByClassName("food-list-hook");
+      let foodlist = this.$refs.foodsScroll.getElementsByClassName(
+        "food-list-hook"
+      );
       let height = 0;
       this.listHeight.push(height);
       for (let i = 0; i < foodlist.length - 1; i++) {

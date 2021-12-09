@@ -29,8 +29,9 @@ const routes = [
             {
                 path: '/me',
                 name: 'me',
-                component: () => import('@/views/Me.vue')
+                component: () => import('@/views/Me.vue'),
             },
+
             {
                 path: '/address',
                 name: 'address',
@@ -75,8 +76,23 @@ const routes = [
                 component: () => import('@/views/shop/Seller.vue')
             },
         ],
-    }
+    },
+    {
+        path: '/myAddress',
+        name: 'Myaddress',
+        component: () => import('@/views/order/Myaddress.vue')
+    },
 
+    {
+        path: '/addAddress',
+        name: 'Addaddress',
+        component: () => import('@/views/order/Addaddress.vue')
+    },
+    {
+        path: '/settlement',
+        name: 'Settlement',
+        component: () => import('@/views/order/Settlement.vue')
+    },
 ]
 
 const router = new VueRouter({

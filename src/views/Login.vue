@@ -50,8 +50,7 @@ export default {
           code: this.verifyCode,
         })
         .then((res) => {
-          console.log(res);
-          localStorage.setItem("ele_login", true);
+          localStorage.setItem("ele_login", res.data.user._id);
           this.$router.push("/");
         })
         .catch((err) => {
@@ -69,7 +68,6 @@ export default {
           .then((res) => {
             console.log(res);
           });
-        console.log();
       }
     },
     validateBtn() {

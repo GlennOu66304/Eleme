@@ -39,7 +39,7 @@
     </transition>
     <div
       class="bottomNav-cartfooter"
-      :class="{ 'bottomNav-caricon-empty': isEmpty }"
+      :class="{ 'bottomNav-carticon-empty': isEmpty }"
     >
       <span class="bottomNav-carticon" @click="showCartView = !showCartView">
         <i class="fa fa-cart-plus"></i>
@@ -58,7 +58,7 @@
         <span v-if="isEmpty"
           >¥{{ shopInfo.rst.float_minimum_order_amount }}元起送</span
         >
-        <span>去结算</span>
+        <span @click="settlement">去结算</span>
       </button>
     </div>
   </div>
@@ -84,6 +84,7 @@ export default {
       let empty = true;
       this.totalCount = 0;
       this.totalPrice = 0;
+      this.selectedFoods = [];
       this.shopInfo.recommend.forEach((recommend) => {
         recommend.items.forEach((item) => {
           if (item.count) {
@@ -108,9 +109,9 @@ export default {
       return empty;
     },
   },
-  created() {
-    console.log(this.shopInfo);
-  },
+  // created() {
+  //   console.log(this.shopInfo);
+  // },
   methods: {
     clearFoods() {
       this.shopInfo.recommend.forEach((recommend) => {
@@ -124,6 +125,9 @@ export default {
           food.count = 0;
         });
       });
+    },
+    settlement() {
+      this.$router.push("/settlement");
     },
   },
   components: {

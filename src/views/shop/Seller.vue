@@ -24,7 +24,6 @@ export default {
     getData() {
       this.$axios("/api/profile/seller").then((res) => {
         this.sellerInfo = res.data;
-        console.log(this.sellerInfo);
       });
     },
   },
