@@ -127,6 +127,9 @@ export default {
           this.addressInfo
         )
         .then((res) => {
+          if (!this.$store.getters.userInfo) {
+            this.$store.dispatch("setUserInfo", this.addressInfo);
+          }
           this.$router.push("/myAddress");
         })
         .catch((err) => {

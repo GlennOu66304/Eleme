@@ -93,6 +93,16 @@ const routes = [
         name: 'Settlement',
         component: () => import('@/views/order/Settlement.vue')
     },
+    {
+        path: '/remark',
+        name: 'Remark',
+        component: () => import('@/views/order/Remark.vue')
+    },
+    {
+        path: '/pay',
+        name: 'Pay',
+        component: () => import('@/views/order/Pay.vue')
+    },
 ]
 
 const router = new VueRouter({

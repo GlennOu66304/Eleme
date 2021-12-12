@@ -8,7 +8,11 @@
         v-for="(address, index) in allAddress"
         :key="index"
       >
-        <div class="address-card-body">
+        <div class="address-card-select">
+          <i class="fa fa-check-circle" v-if="selectIndex === index"></i>
+        </div>
+
+        <div class="address-card-body" @click="setAddressInfo(address, index)">
           <p class="address-card-title">
             <span class="username">{{ address.name }}</span>
             <span v-if="address.sex" class="gender">{{ address.sex }}</span>
@@ -42,6 +46,7 @@ export default {
     return {
       title: "我的地址",
       allAddress: [],
+      selectIndex: 0,
     };
   },
 
@@ -90,6 +95,11 @@ export default {
         .then((res) => {
           this.allAddress.splice(index, 1);
         });
+    },
+    setAddressInfo(address, index) {
+      this.selectIndex = index;
+      this.$store.dispatch("setUserInfo", address);
+      this.$router.push("/settlement");
     },
   },
 

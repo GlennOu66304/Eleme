@@ -127,6 +127,10 @@ export default {
       });
     },
     settlement() {
+      this.$store.dispatch("setOrderInfo", {
+        shopInfo: this.shopInfo.rst,
+        selectFoods: this.selectedFoods,
+      });
       this.$router.push("/settlement");
     },
   },
