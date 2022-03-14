@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+  <--! router management  -->
     <router-view />
   </div>
 </template>
