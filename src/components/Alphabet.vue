@@ -49,11 +49,15 @@
 </template>
 
 <script>
+// install the bsScroll then import it into the Alphabet
+
 import BScroll from "better-scroll";
+
 export default {
   name: "Alphabet",
   data() {
     return {
+      // and defines it in the data section
       scroll: null,
     };
   },
@@ -62,6 +66,7 @@ export default {
     keys: Array,
   },
   methods: {
+    // the create a funcion in the methods
     initScroll() {
       this.scroll = new BScroll(this.$refs.area_scroll, {
         click: true,
