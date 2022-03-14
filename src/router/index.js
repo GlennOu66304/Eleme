@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 // import Login from '@/views/Login.vue'
 
 Vue.use(VueRouter)
-
+// vue router usage and router management;
 
 const routes = [
     {
