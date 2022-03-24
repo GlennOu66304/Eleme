@@ -1,22 +1,23 @@
 import Vue from 'vue'
+// install and import the Vuex
 import Vuex from 'vuex'
 
-
+// initialize the Vuex
 Vue.use(Vuex)
 
-//type:
+// define type:
 const types = {
     SET_LOCATION: "SET_LOCATION",
     SET_ADDRESS: "SET_ADDRESS",
 }
 
-//state
+// define state
 const state = {
     location: {},
     address: ""
 }
 
-//getter
+// define the getter
 const getters = {
     location: state => state.location,
     address: state => state.address
