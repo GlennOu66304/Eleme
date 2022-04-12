@@ -61,12 +61,16 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
-
+// private router guard
 router.beforeEach((to, from, next) => {
+    // condition check, if the local storage has the jwt_token
     const isLogin = localStorage.ele_login ? true : false;
+
+//if the router path is login, then just head to the login path
     if (to.path == '/login') {
         next();
     } else {
+        // else, check if it localstorage contains the token, yes go to the dash board page, other wise go back to the login page
         isLogin ? next() : next("/login")
 
     }
