@@ -112,14 +112,14 @@ const router = new VueRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const isLogin = localStorage.ele_login ? true : false;
-    if (to.path == '/login') {
-        next();
-    } else {
-        isLogin ? next() : next("/login")
+// router.beforeEach((to, from, next) => {
+//     const isLogin = localStorage.ele_login ? true : false;
+//     if (to.path == '/login') {
+//         next();
+//     } else {
+//         isLogin ? next() : next("/login")
 
-    }
-})
+//     }
+// })
 
 export default router
