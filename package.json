@@ -1,4 +1,5 @@
 {
+  "homepage": "https://glennou66304.github.io/Eleme",
   "name": "eleme",
   "version": "0.1.0",
   "private": true,
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
+    "gh-pages": "^4.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
